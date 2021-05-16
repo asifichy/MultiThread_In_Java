@@ -1,0 +1,156 @@
+
+
+import java.util.Scanner;
+
+
+public class Solution {
+    
+    public static void main(String[] args) {
+     
+        message text = new message();
+        
+        new textThread1(text).start();
+        new textThread2(text).start();
+        new textThread3(text).start();       
+     
+    }  
+}
+    class message
+    {
+        Scanner input1 = new Scanner(System.in);
+        Scanner input2 = new Scanner(System.in);
+        Scanner input3 = new Scanner(System.in);
+        
+        String textType1, textType2, textType3;
+        
+        int sign = 0;
+        
+        public synchronized void startTalk1() throws InterruptedException
+        {
+            if(sign == 1)
+            {
+                wait();
+            }
+            System.out.println("User1: ");
+            
+            textType1 = input1.nextLine();
+            if(textType1.equalsIgnoreCase("Bye"))
+            {
+                System.out.println("\nUnser1 has left the chat. Conversation ended.");
+                System.exit(0);
+            }
+            sign = 1;
+            notifyAll();           
+        }
+        
+        public synchronized void startTalk2() throws InterruptedException
+        {
+            if(sign == 0)
+            {
+                wait();
+            }
+            System.out.println("User2: ");
+            textType2 = input2.nextLine();
+            
+            if(textType2.equalsIgnoreCase("Bye"))
+            {
+                System.out.println("\nUser2 has left the chat. Converastion ended.");
+                System.exit(0);
+            }
+            sign = 0;
+            notifyAll();
+        }
+        
+        public synchronized void startTalk3() throws InterruptedException
+        {
+            if(sign == 3)
+            {
+                wait();
+            }
+            System.out.println("User3: ");
+            textType3 = input3.nextLine();
+            
+            if(textType3.equalsIgnoreCase("Bye"))
+            {
+                System.out.println("\nUser3 has left the chat. Conversation ended.");
+                System.exit(0);
+            }
+            sign = 3;
+            notifyAll();
+        }        
+    }
+    
+    class textThread1 extends Thread
+    {
+        message chat;
+        
+        public textThread1(message chat)
+        {
+            this.chat = chat;
+        }
+        @Override
+        public void run()
+        {
+            try
+            {
+                while(true)
+                {
+                    chat.startTalk1();
+                }
+            }
+            catch(InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    class textThread2 extends Thread
+    {
+        message chat;
+        
+        public textThread2(message chat)
+        {
+            this.chat = chat;
+        }
+        @Override
+        public void run()
+        {
+            try
+            {
+                while(true)
+                {
+                    chat.startTalk2();
+                }
+            }
+            catch(InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    class textThread3 extends Thread
+    {
+        message chat;
+        
+        public textThread3(message chat)
+        {
+            this.chat = chat;
+        }
+        @Override
+        public void run()
+        {
+            try
+            {
+                while(true)
+                {
+                    chat.startTalk3();
+                }
+            }
+            catch(InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
