@@ -1,4 +1,4 @@
-# MultiThread_In_Java is solved by Md. Asif Imtiyaj Chowdhury.
+# MultiThread_In_Java 
 
 The Problem...
 
